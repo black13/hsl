@@ -1,0 +1,9 @@
+setq (setq symbol1 value1 ...) special form
+    Set the named symbols to the specified values.
+lambda (lambda ARGS . BODY) special form
+    Defined an anonymous function.
+fset (fset sym value) function
+    Set the function cell of a symbol.
+if (if cond then-clause else-clause1 ...)
+    
+    

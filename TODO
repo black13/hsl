@@ -1,0 +1,75 @@
+-*- text -*-
+
+*: to do; +: done; -: rejected; @: in progress
+
+  * gc only loud when called explicitly (by default; be able to set
+    something appropriate in the trace flags)
+
+  * error handling: have some information in the interpreter context
+    (to be) that says if an error shall be printed or not and
+    things; it is saved, changed, and later restored e. g. by errset.
+
+  * a more useful tracing facility (eval, bindings, gc, gctraverse,
+    gcprotect, objects (new), ...)
+
+  * reentrant hashmap enumeration
+
+  * replace the out_port passed through everywhere by a more general
+    thing like a whole session context including input port and stuff
+
+  * format (seems not as difficult as it did)
+
+ (* destructuring let)
+
+  @ garbage collection
+
+    > (fac 400)
+    [GC... 235 marked, 28730 freed, 4 alloced, 28734 visited]
+    Error: invalid argument count; invalid number of arguments, 0 not in [2..-1]: #<builtin:-:2..>
+    #904: (- n 1)
+    [...]
+    #3: (fac (- n 1))
+    #2: (* n (fac (- n 1)))
+    #1: (if (zerop n) 1 (* n (fac (- n 1))))
+    #0: Segmentation fault
+
+  @ lots of builtins (to be refined)
+
+    * strbuf functions
+
+    * map functions
+
+    * vector functions
+
+    * flet, label
+
+  + bug:
+    > (* 26 .305)
+    26    
+
+  + trace bit with functions
+
+  + autoload
+
+  + perhaps lambda (and mu) could be a special form that verifies a
+    function definition, same as defun, and mark the corresponding
+    pair as such, so we don't have to re-check it on every evalfun;
+    that does not make the form safe against modification, though. 
+    Or make it a function object that is no longer even accessible
+    as a list? That would involve copying the whole structure, but
+    that might be cheaper -- higher setup cost, but we save on every
+    evalfun/apply.
+
+  + make map work
+    Done by finally implementing `function' and #' (and a reader
+    macro mechanism in general)
+
+  + reader bug causes SIGSEGV
+
+  + defun (like fset)
+
+  + repeated evaluation of arguments, can bee seen when running
+    > (fset 'last (lambda (l) (if (eq (cdr l) nil) (car l) (last l))))
+    (lambda (l) (if (eq (cdr l) nil) (car l) (last l)))
+    > (last '(3 4 5))
+    #<signal-LERROR,4:not a function object: 4>
